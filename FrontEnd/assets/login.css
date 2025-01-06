@@ -1,0 +1,101 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* Prend tout l'espace disponible entre le header et le footer */
+  display: flex; /* Active Flexbox */
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  padding: 20px; /* Ajoute un peu d'espace autour du formulaire */
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 160px;
+  margin-top: 100px;
+}
+
+/* Titre */
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2f5740;
+}
+
+/* Formulaire */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Groupe de champs */
+.form-group {
+  text-align: left;
+}
+
+/* Étiquette */
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #2f5740;
+}
+
+/* Champs d'entrée */
+.form-input {
+  width: 100%;
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.form-input:focus {
+  border-color: #2f5740;
+  outline: none;
+}
+
+/* Bouton de connexion */
+.login-button {
+  width: 179px;
+  height: 36px;
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  margin: 2em auto;
+  text-align: center;
+  border-radius: 60px;
+}
+
+.login-button:hover {
+  background-color: #244a32;
+}
+
+/* Lien de mot de passe oublié */
+.forgot-password {
+  font-size: 14px;
+  color: black;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #244a32;
+}
+
+footer nav ul {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em;
+}

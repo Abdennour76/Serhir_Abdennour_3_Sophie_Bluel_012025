@@ -1,0 +1,109 @@
+#introduction {
+  display: flex;
+  align-items: center;
+}
+#introduction figure {
+  flex: 1;
+}
+#introduction img {
+  display: block;
+  margin: auto;
+  width: 80%;
+}
+
+#introduction article {
+  flex: 1;
+}
+#introduction h2 {
+  margin-bottom: 1em;
+}
+
+#introduction p {
+  margin-bottom: 0.5em;
+}
+#portfolio h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+.gallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.gallery img {
+  width: 100%;
+}
+#contact {
+  width: 50%;
+  margin: auto;
+}
+#contact > * {
+  text-align: center;
+}
+#contact h2 {
+  margin-bottom: 20px;
+}
+#contact form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+#contact input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#contact label {
+  margin: 2em 0 1em 0;
+}
+#contact textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+input[type="submit"] {
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  margin: 2em auto;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.filters button {
+  background-color: transparent;
+  border: 1px solid #2f5740; /* Couleur de la bordure */
+  color: #2f5740; /* Couleur du texte */
+  border-radius: 20px; /* Bords arrondis */
+  padding: 5px 20px; /* Espacement interne */
+  margin: 5px; /* Espacement entre les boutons */
+  font-family: "Work Sans", sans-serif; /* Assurez-vous que la police est importée */
+  font-size: 16px; /* Taille du texte */
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transition pour l'effet de survol */
+}
+
+.filters button:hover {
+  background-color: #2f5740; /* Couleur de fond au survol */
+  color: #fff; /* Couleur du texte au survol */
+}
+
+.filters button.active {
+  background-color: #2f5740; /* Couleur de fond pour le bouton actif */
+  color: #fff; /* Couleur du texte pour le bouton actif */
+  border-color: #2f5740; /* Bordure assortie à l'arrière-plan */
+}
