@@ -132,7 +132,6 @@ input[type="submit"] {
 }
 
 /* Styles pour la modale */
-/* Styles pour la modale */
 .modal {
   display: none; /* Masquée par défaut */
   position: fixed;
@@ -148,11 +147,11 @@ input[type="submit"] {
 
 .modal-content {
   background: #fff;
-  padding: 30px;
+  padding: 100px;
   border-radius: 10px;
-  width: 570px;
-  height: 600px;
-  max-width: 570px;
+  width: 430px;
+  height: 470px;
+  max-width: 700px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
   position: relative;
@@ -175,6 +174,7 @@ input[type="submit"] {
 .gallery2 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  margin-bottom: 30px;
 }
 
 .gallery2 img {
@@ -182,61 +182,50 @@ input[type="submit"] {
   height: 112.57px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   position: relative;
-  margin-top: 25px;
+  margin-top: 10px;
 }
 
-.delete-button {
-  background: #ff5c5c;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  font-size: 14px;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
+#addPhotoSection {
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.delete-button:hover {
-  background: #ff3b3b;
+  flex-direction: column;
+  text-align: center;
 }
 
 .photo-input-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
   justify-content: center;
   border: 2px dashed #ccc;
   border-radius: 10px;
-  padding: 40px;
   margin-bottom: 20px;
   color: #888;
   text-align: center;
   cursor: pointer;
+  background-color: #e8f1f6;
+  height: 200px;
 }
 
 .photo-input-placeholder i {
-  font-size: 50px;
-  margin-bottom: 10px;
+  font-size: 76px;
+  margin-top: 20px;
 }
 .photo-input-placeholder p {
   font-size: 12px;
-  margin-top: 5px;
   color: #aaa;
+}
+.photo-input-placeholder img {
+  display: flex;
+  width: 170px;
+  height: 200px;
 }
 
 .add-photo {
-  background-color: #008c73;
+  background-color: #1d6154;
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
+  font-family: "Work Sans", sans-serif;
 }
 
 .add-photo:hover {
@@ -246,10 +235,7 @@ input[type="submit"] {
 .submit-photo {
   background-color: #008c73;
   color: white;
-  padding: 10px 20px;
-  border: none;
   border-radius: 5px;
-  margin-top: 20px;
   cursor: pointer;
 }
 
@@ -278,17 +264,33 @@ input[type="submit"] {
   text-align: left;
   font-size: 14px;
   margin-bottom: 5px;
-  color: #666;
+  color: black;
+  font-family: "Work Sans", sans-serif;
+  border: none;
 }
 
-#addPhotoForm input,
-#addPhotoForm select {
-  width: 100%;
+#addPhotoForm input {
+  width: 420px;
+  height: 30px;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 5px;
   font-size: 14px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  font-family: "Work Sans", sans-serif;
+}
+
+#addPhotoForm select {
+  width: 440px;
+  height: 51px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  font-family: "Work Sans", sans-serif;
 }
 
 #addPhotoForm input:focus,
@@ -299,6 +301,8 @@ input[type="submit"] {
 
 /* Bouton Valider */
 .submit-photo {
+  display: grid;
+  justify-content: center;
   background-color: #ccc;
   color: white;
   padding: 10px 20px;
@@ -307,10 +311,21 @@ input[type="submit"] {
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  width: 150px;
+  width: 100%;
   margin-top: 10px;
 }
 
 .submit-photo:hover {
   background-color: #aaa;
+}
+
+.delete-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 1);
+  border: none;
+  padding: 5px;
+  color: white;
+  cursor: pointer;
 }

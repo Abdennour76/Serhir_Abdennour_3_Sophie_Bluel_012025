@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("modal");
-  const openModalBtn = document.getElementById("openModal"); // Bouton Modifier à côté de Mes Projets
+  const openModalBtn = document.getElementById("openModal");
   const closeModalBtn = modal.querySelector(".close");
   const photoGallerySection = document.getElementById("photoGallerySection");
   const addPhotoSection = document.getElementById("addPhotoSection");
@@ -13,14 +13,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const photoGallery = document.getElementById("photoGallery");
   const addPhotoForm = document.getElementById("addPhotoForm");
   const photoInput = document.getElementById("photoInput");
+  const photoPreview = document.querySelector(".photo-input-placeholder");
   const photoTitle = document.getElementById("photoTitle");
   const photoCategory = document.getElementById("photoCategory");
 
   const API_URL_CATEGORIES = "http://localhost:5678/api/categories";
   const API_URL_PHOTOS = "http://localhost:5678/api/works";
 
+  // Vérifier si l'utilisateur est connecté et afficher ou masquer le bouton Modifier
+  if (!isAuthenticated()) {
+    openModalBtn.style.display = "none"; // Masquer le bouton si l'utilisateur n'est pas connecté
+  } else {
+    openModalBtn.style.display = "inline-block"; // Afficher le bouton si l'utilisateur est connecté
+  }
+
   // Ouvrir la modale en cliquant sur le bouton Modifier
   openModalBtn.addEventListener("click", function () {
+    if (!isAuthenticated()) {
+      alert("Vous devez être connecté pour accéder à cette section.");
+      window.location.href = "login.html"; // Rediriger vers la page de connexion
+      return;
+    }
+
     modal.style.display = "flex";
     loadPhotos(); // Charger les photos existantes
   });
@@ -29,6 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
   closeModalBtn.addEventListener("click", () => {
     modal.style.display = "none";
     resetForm(); // Réinitialiser le formulaire
+  });
+
+  // Fermer la modale en cliquant à l'extérieur
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+      resetForm(); // Réinitialiser le formulaire
+    }
   });
 
   // Ouvrir le formulaire d'ajout
@@ -55,35 +77,21 @@ document.addEventListener("DOMContentLoaded", function () {
       photoGallery.innerHTML = ""; // Vider la galerie avant de charger
       photos.forEach((photo) => {
         const figure = document.createElement("figure");
+        figure.dataset.id = photo.id; // Ajouter l'ID pour la suppression
+        figure.style.position = "relative";
+
         const img = document.createElement("img");
         img.src = photo.imageUrl;
         img.alt = photo.title;
 
-        // Ajouter uniquement l'image au conteneur
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-button";
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        deleteBtn.addEventListener("click", () => deletePhoto(photo.id));
+
         figure.appendChild(img);
+        figure.appendChild(deleteBtn);
         photoGallery.appendChild(figure);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Charger les catégories
-  async function loadCategories() {
-    try {
-      const response = await fetch(API_URL_CATEGORIES);
-      if (!response.ok)
-        throw new Error("Erreur lors du chargement des catégories.");
-      const categories = await response.json();
-
-      // Remplir le champ des catégories
-      photoCategory.innerHTML =
-        '<option value="">Sélectionnez une catégorie</option>';
-      categories.forEach((category) => {
-        const option = document.createElement("option");
-        option.value = category.id;
-        option.textContent = category.name;
-        photoCategory.appendChild(option);
       });
     } catch (error) {
       console.error(error);
@@ -99,14 +107,22 @@ document.addEventListener("DOMContentLoaded", function () {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
+
       if (response.ok) {
         alert("Photo supprimée avec succès !");
-        loadPhotos();
+        // Supprimer l'élément du DOM
+        const photoElement = document.querySelector(
+          `figure[data-id="${photoId}"]`
+        );
+        if (photoElement) {
+          photoElement.remove();
+        }
       } else {
         alert("Erreur lors de la suppression.");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Erreur :", error);
+      alert("Une erreur s'est produite lors de la suppression.");
     }
   }
 
@@ -128,22 +144,82 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (response.ok) {
+        const newPhoto = await response.json();
         alert("Photo ajoutée avec succès !");
         resetForm();
-        // Basculer à la galerie
+
+        // Ajouter la nouvelle photo directement au DOM
+        const figure = document.createElement("figure");
+        figure.dataset.id = newPhoto.id;
+        figure.style.position = "relative";
+
+        const img = document.createElement("img");
+        img.src = newPhoto.imageUrl;
+        img.alt = newPhoto.title;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-button";
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        deleteBtn.addEventListener("click", () => deletePhoto(newPhoto.id));
+
+        figure.appendChild(img);
+        figure.appendChild(deleteBtn);
+        photoGallery.appendChild(figure);
+
+        // Retourner à la galerie
         addPhotoSection.style.display = "none";
         photoGallerySection.style.display = "block";
       } else {
         alert("Erreur lors de l'ajout de la photo.");
       }
     } catch (error) {
+      console.error("Erreur :", error);
+      alert("Une erreur s'est produite lors de l'ajout.");
+    }
+  });
+
+  // Charger les catégories
+  async function loadCategories() {
+    try {
+      const response = await fetch(API_URL_CATEGORIES);
+      if (!response.ok)
+        throw new Error("Erreur lors du chargement des catégories.");
+      const categories = await response.json();
+
+      // Remplir le champ des catégories
+      photoCategory.innerHTML = '<option value=""></option>';
+      categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        photoCategory.appendChild(option);
+      });
+    } catch (error) {
       console.error(error);
+    }
+  }
+
+  // Prévisualiser la photo ajoutée dans le placeholder
+  photoInput.addEventListener("change", function () {
+    const file = photoInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Remplacer le contenu de l'élément photoPreview par l'image sélectionnée
+        photoPreview.innerHTML = `<img src="${e.target.result}" alt="Photo ajoutée">`;
+      };
+      reader.readAsDataURL(file);
     }
   });
 
   // Réinitialiser le formulaire
   function resetForm() {
     addPhotoForm.reset();
+    photoPreview.innerHTML = `
+      <i class="fa-solid fa-image"></i>
+      <span>+ Ajouter photo</span>
+      <p>jpg, png : 4mo max</p>
+    `;
     addPhotoSection.style.display = "none";
     photoGallerySection.style.display = "block";
   }

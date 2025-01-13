@@ -25,7 +25,6 @@ document
           // Stocker le token pour les actions authentifiées
           localStorage.setItem("authToken", token);
 
-          alert("Connexion réussie !");
           window.location.href = "index.html"; // Redirection vers la page d'accueil
         } else {
           errorMessage.textContent = "Impossible de récupérer le token.";
