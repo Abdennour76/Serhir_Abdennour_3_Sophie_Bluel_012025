@@ -6,7 +6,25 @@ async function loadPhotosAndFilters() {
   const filtersContainer = document.querySelector(".filters");
 
   try {
-    // Charger les catégories
+    // Charger les photos (toujours afficher les photos)
+    const photosResponse = await fetch(API_URL_PHOTOS);
+    if (!photosResponse.ok)
+      throw new Error("Erreur lors de la récupération des photos.");
+    const photos = await photosResponse.json();
+
+    // Sauvegarder les photos dans une variable globale pour le filtrage
+    window.allPhotos = photos;
+
+    // Afficher toutes les photos
+    displayPhotos(photos);
+
+    // Si l'utilisateur est connecté, cacher uniquement les filtres
+    if (isAuthenticated()) {
+      filtersContainer.style.display = "none"; // Cache les filtres uniquement
+      return; // Arrête le chargement des filtres
+    }
+
+    // Charger les catégories si l'utilisateur n'est pas connecté
     const categoriesResponse = await fetch(API_URL_CATEGORIES);
     if (!categoriesResponse.ok)
       throw new Error("Erreur lors de la récupération des catégories.");
@@ -27,24 +45,13 @@ async function loadPhotosAndFilters() {
       button.addEventListener("click", () => filterPhotos(category.id));
       filtersContainer.appendChild(button);
     });
-
-    // Charger les photos
-    const photosResponse = await fetch(API_URL_PHOTOS);
-    if (!photosResponse.ok)
-      throw new Error("Erreur lors de la récupération des photos.");
-    const photos = await photosResponse.json();
-
-    // Sauvegarder les photos dans une variable globale pour le filtrage
-    window.allPhotos = photos;
-
-    // Afficher toutes les photos par défaut
-    displayPhotos(photos);
   } catch (error) {
     console.error("Erreur :", error);
     gallery.textContent = "Impossible de charger les données.";
   }
 }
 
+// Fonction pour afficher les photos
 function displayPhotos(photos) {
   const gallery = document.querySelector(".gallery");
   gallery.innerHTML = ""; // Efface la galerie existante
@@ -72,6 +79,7 @@ function displayPhotos(photos) {
   });
 }
 
+// Fonction pour filtrer les photos
 function filterPhotos(categoryId) {
   const photos = window.allPhotos || [];
   if (categoryId === "all") {
@@ -82,6 +90,12 @@ function filterPhotos(categoryId) {
     );
     displayPhotos(filteredPhotos);
   }
+}
+
+// Vérifie si l'utilisateur est authentifié
+function isAuthenticated() {
+  const token = localStorage.getItem("authToken");
+  return !!token; // Retourne true si un token est présent
 }
 
 // Charger les photos et les filtres lorsque le DOM est prêt

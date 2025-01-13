@@ -13,9 +13,11 @@
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <link rel="stylesheet" href="./assets/index.css" />
-    <script src="./JS/script.js"></script>
   </head>
   <body>
+    <div id="editModeBar">
+      <p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>
+    </div>
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
@@ -53,6 +55,10 @@
       </section>
       <section id="portfolio">
         <h2 id="projets">Mes Projets</h2>
+        <button id="openModal" class="edit-button">
+          <i class="fa-regular fa-pen-to-square"></i>
+          Modifier
+        </button>
         <div class="filters"></div>
         <div class="gallery"></div>
       </section>
@@ -78,5 +84,54 @@
         </ul>
       </nav>
     </footer>
+
+    <!-- Modale pour la gestion des photos -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <!-- Section de la galerie -->
+        <div id="photoGallerySection">
+          <h3>Galerie photo</h3>
+          <div id="photoGallery" class="gallery2"></div>
+          <button id="openAddPhotoForm" class="add-photo">
+            Ajouter une photo
+          </button>
+        </div>
+
+        <!-- Section du formulaire d'ajout -->
+        <div id="addPhotoSection" style="display: none">
+          <h3>Ajout photo</h3>
+          <form id="addPhotoForm">
+            <label for="photoInput">
+              <div class="photo-input-placeholder">
+                <i class="fa-solid fa-image"></i>
+                <span>+ Ajouter photo</span>
+                <p>jpg, png : 4mo max</p>
+              </div>
+            </label>
+            <input
+              type="file"
+              id="photoInput"
+              accept="image/*"
+              style="display: none"
+            />
+            <label for="photoTitle">Titre</label>
+            <input type="text" id="photoTitle" placeholder="Titre" required />
+            <label for="photoCategory">Catégorie</label>
+            <select id="photoCategory" required>
+              <option value="">Sélectionnez une catégorie</option>
+              <!-- Ajoutez les catégories dynamiquement via JS -->
+            </select>
+            <button type="submit" class="submit-photo">Valider</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="./JS/script.js"></script>
+    <script src="./JS/auth.js"></script>
+    <script src="secureActions.js" defer></script>
+    <script src="./JS/modale.js" defer></script>
   </body>
 </html>
