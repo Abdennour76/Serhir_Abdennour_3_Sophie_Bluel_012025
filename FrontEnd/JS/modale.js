@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const photoPreview = document.querySelector(".photo-input-placeholder");
   const photoTitle = document.getElementById("photoTitle");
   const photoCategory = document.getElementById("photoCategory");
+  const submitButton = addPhotoForm.querySelector("button[type='submit']");
 
   const API_URL_CATEGORIES = "http://localhost:5678/api/categories";
   const API_URL_PHOTOS = "http://localhost:5678/api/works";
@@ -109,14 +110,19 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (response.ok) {
-        alert("Photo supprimée avec succès !");
-        // Supprimer l'élément du DOM
+        // Supprimer l'élément du DOM dans la modale
         const photoElement = document.querySelector(
           `figure[data-id="${photoId}"]`
         );
         if (photoElement) {
           photoElement.remove();
         }
+
+        // Mettre à jour la galerie principale
+        window.allPhotos = window.allPhotos.filter(
+          (photo) => photo.id !== photoId
+        );
+        displayPhotos(window.allPhotos); // Réactualiser la galerie principale
       } else {
         alert("Erreur lors de la suppression.");
       }
@@ -125,6 +131,26 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Une erreur s'est produite lors de la suppression.");
     }
   }
+
+  // Activer ou désactiver le bouton Valider en fonction des champs remplis
+  function updateSubmitButtonState() {
+    if (
+      photoInput.files.length > 0 &&
+      photoTitle.value.trim() !== "" &&
+      photoCategory.value !== ""
+    ) {
+      submitButton.disabled = false;
+      submitButton.style.backgroundColor = "#1d6154";
+    } else {
+      submitButton.disabled = true;
+      submitButton.style.backgroundColor = "#ccc";
+    }
+  }
+
+  // Ajouter des événements d'entrée pour vérifier les champs
+  photoInput.addEventListener("change", updateSubmitButtonState);
+  photoTitle.addEventListener("input", updateSubmitButtonState);
+  photoCategory.addEventListener("change", updateSubmitButtonState);
 
   // Soumettre le formulaire d'ajout
   addPhotoForm.addEventListener("submit", async (event) => {
@@ -145,10 +171,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (response.ok) {
         const newPhoto = await response.json();
-        alert("Photo ajoutée avec succès !");
         resetForm();
 
-        // Ajouter la nouvelle photo directement au DOM
+        // Ajouter la nouvelle photo directement au DOM de la modale
         const figure = document.createElement("figure");
         figure.dataset.id = newPhoto.id;
         figure.style.position = "relative";
@@ -165,6 +190,10 @@ document.addEventListener("DOMContentLoaded", function () {
         figure.appendChild(img);
         figure.appendChild(deleteBtn);
         photoGallery.appendChild(figure);
+
+        // Mettre à jour la galerie principale
+        window.allPhotos.push(newPhoto); // Ajouter aux données globales
+        displayPhotos(window.allPhotos); // Réactualiser la galerie principale
 
         // Retourner à la galerie
         addPhotoSection.style.display = "none";
@@ -220,7 +249,12 @@ document.addEventListener("DOMContentLoaded", function () {
       <span>+ Ajouter photo</span>
       <p>jpg, png : 4mo max</p>
     `;
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = "#ccc";
     addPhotoSection.style.display = "none";
     photoGallerySection.style.display = "block";
   }
+
+  // Initialiser l'état du bouton Valider
+  updateSubmitButtonState();
 });

@@ -147,7 +147,7 @@ input[type="submit"] {
 
 .modal-content {
   background: #fff;
-  padding: 100px;
+  padding: 80px 80px 130px 80px;
   border-radius: 10px;
   width: 430px;
   height: 470px;
@@ -194,8 +194,6 @@ input[type="submit"] {
 .photo-input-placeholder {
   display: grid;
   justify-content: center;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
   margin-bottom: 20px;
   color: #888;
   text-align: center;
@@ -218,10 +216,17 @@ input[type="submit"] {
   height: 200px;
 }
 
+.barre {
+  margin: 20px auto;
+  background-color: #b3b3b3;
+  width: 80%;
+  height: 1px;
+}
+
 .add-photo {
   background-color: #1d6154;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 40px 10px 40px;
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -301,8 +306,6 @@ input[type="submit"] {
 
 /* Bouton Valider */
 .submit-photo {
-  display: grid;
-  justify-content: center;
   background-color: #ccc;
   color: white;
   padding: 10px 20px;
@@ -311,7 +314,7 @@ input[type="submit"] {
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  width: 100%;
+  width: 237px;
   margin-top: 10px;
 }
 
