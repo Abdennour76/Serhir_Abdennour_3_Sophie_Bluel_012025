@@ -33,16 +33,25 @@ async function loadPhotosAndFilters() {
     // Ajouter le filtre "Tous" par défaut
     const allButton = document.createElement("button");
     allButton.textContent = "Tous";
-    allButton.addEventListener("click", () => filterPhotos("all"));
+    allButton.addEventListener("click", () => {
+      filterPhotos("all");
+      setActiveFilter(allButton); // Mettre à jour le style actif
+    });
     filtersContainer.appendChild(allButton);
 
     // Ajouter les filtres dynamiques
     categories.forEach((category) => {
       const button = document.createElement("button");
       button.textContent = category.name;
-      button.addEventListener("click", () => filterPhotos(category.id));
+      button.addEventListener("click", () => {
+        filterPhotos(category.id);
+        setActiveFilter(button); // Mettre à jour le style actif
+      });
       filtersContainer.appendChild(button);
     });
+
+    // Définir "Tous" comme bouton actif par défaut
+    setActiveFilter(allButton);
   } catch (error) {
     console.error("Erreur :", error);
     gallery.textContent = "Impossible de charger les données.";
@@ -88,6 +97,16 @@ function filterPhotos(categoryId) {
     );
     displayPhotos(filteredPhotos);
   }
+}
+
+// Fonction pour définir un filtre comme actif
+function setActiveFilter(button) {
+  // Supprimer la classe active de tous les boutons
+  const buttons = document.querySelectorAll(".filters button");
+  buttons.forEach((btn) => btn.classList.remove("active-filter"));
+
+  // Ajouter la classe active au bouton sélectionné
+  button.classList.add("active-filter");
 }
 
 // Charger les photos et les filtres lorsque le DOM est prêt

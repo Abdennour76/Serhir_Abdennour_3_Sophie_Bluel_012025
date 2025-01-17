@@ -108,6 +108,12 @@ input[type="submit"] {
   border-color: #2f5740; /* Bordure assortie à l'arrière-plan */
 }
 
+.filters button.active-filter {
+  background-color: #2f5740; /* Vert */
+  color: white; /* Texte blanc */
+  border-color: #2f5740; /* Assortir la bordure */
+}
+
 #editModeBar {
   display: none;
   background-color: black;
