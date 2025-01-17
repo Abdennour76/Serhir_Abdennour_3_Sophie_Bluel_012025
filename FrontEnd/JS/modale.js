@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-button";
-        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
         deleteBtn.addEventListener("click", () => deletePhoto(photo.id));
 
         figure.appendChild(img);
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-button";
-        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
         deleteBtn.addEventListener("click", () => deletePhoto(newPhoto.id));
 
         figure.appendChild(img);

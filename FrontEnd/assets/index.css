@@ -81,7 +81,7 @@ input[type="submit"] {
 .filters {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 .filters button {
   background-color: transparent;
@@ -125,6 +125,7 @@ input[type="submit"] {
   font-family: "Work Sans", sans-serif;
   color: #000;
   cursor: pointer;
+  margin-left: 15px;
 }
 
 .edit-button:hover {
@@ -192,34 +193,55 @@ input[type="submit"] {
 }
 
 .photo-input-placeholder {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  width: 420px;
   justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
   color: #888;
   text-align: center;
   cursor: pointer;
   background-color: #e8f1f6;
-  height: 200px;
+  height: 172px;
 }
 
 .photo-input-placeholder i {
   font-size: 76px;
-  margin-top: 20px;
+  margin-top: -15px;
+  color: #b9c5cc;
 }
+
 .photo-input-placeholder p {
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: 400;
   color: #aaa;
+  margin-top: 6px;
 }
+
+.photo-input-placeholder span {
+  height: 16px;
+  padding: 5px 10px;
+  padding-bottom: 3px;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #306685;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  background-color: #cbd6dc;
+}
+
 .photo-input-placeholder img {
   display: flex;
-  width: 170px;
-  height: 200px;
+  width: 129px;
+  height: 170px;
 }
 
 .barre {
-  margin: 20px auto;
+  margin: 30px auto;
   background-color: #b3b3b3;
-  width: 80%;
+  width: 85%;
   height: 1px;
 }
 
@@ -275,8 +297,8 @@ input[type="submit"] {
 }
 
 #addPhotoForm input {
-  width: 420px;
-  height: 30px;
+  width: 402px;
+  height: 32px;
   padding: 10px;
   margin-bottom: 15px;
   border: none;
@@ -287,7 +309,7 @@ input[type="submit"] {
 }
 
 #addPhotoForm select {
-  width: 440px;
+  width: 420px;
   height: 51px;
   padding: 10px;
   margin-bottom: 15px;
@@ -315,7 +337,7 @@ input[type="submit"] {
   font-size: 16px;
   font-weight: bold;
   width: 237px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .submit-photo:hover {

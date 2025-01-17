@@ -33,7 +33,6 @@ async function loadPhotosAndFilters() {
     // Ajouter le filtre "Tous" par défaut
     const allButton = document.createElement("button");
     allButton.textContent = "Tous";
-    allButton.dataset.category = "all";
     allButton.addEventListener("click", () => filterPhotos("all"));
     filtersContainer.appendChild(allButton);
 
@@ -41,7 +40,6 @@ async function loadPhotosAndFilters() {
     categories.forEach((category) => {
       const button = document.createElement("button");
       button.textContent = category.name;
-      button.dataset.category = category.id; // Utiliser l'ID de la catégorie pour filtrer
       button.addEventListener("click", () => filterPhotos(category.id));
       filtersContainer.appendChild(button);
     });
@@ -90,12 +88,6 @@ function filterPhotos(categoryId) {
     );
     displayPhotos(filteredPhotos);
   }
-}
-
-// Vérifie si l'utilisateur est authentifié
-function isAuthenticated() {
-  const token = localStorage.getItem("authToken");
-  return !!token; // Retourne true si un token est présent
 }
 
 // Charger les photos et les filtres lorsque le DOM est prêt

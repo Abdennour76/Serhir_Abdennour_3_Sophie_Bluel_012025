@@ -159,21 +159,27 @@ h2 {
   font-weight: 700;
   font-size: 30px;
   color: #1d6154;
+  padding-bottom: 20px;
 }
 
 nav {
-  align-items: center;
-  list-style-type: none;
+  display: flex; /* Active Flexbox */
+  justify-content: flex-end; /* Aligne les éléments à droite */
+  align-items: center; /* Aligne verticalement */
+  gap: 30px; /* Ajoute un espacement entre les éléments */
 }
+
 nav a {
   padding: 0 10px;
   font-size: 1.2em;
   color: #1d6154;
-  text-decoration: none;
+  text-decoration: none; /* Supprime le soulignement */
 }
 
-nav a:hover {
-  color: #b1663c;
+nav img {
+  width: 20px; /* Taille du logo Instagram */
+  height: auto;
+  margin-left: 10px;
 }
 
 nav button {
