@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
       submitButton.disabled = false;
       submitButton.style.backgroundColor = "#1d6154";
     } else {
-      submitButton.disabled = true;
+      submitButton.disabled = false;
       submitButton.style.backgroundColor = "#ccc";
     }
   }
@@ -152,60 +152,67 @@ document.addEventListener("DOMContentLoaded", function () {
   photoTitle.addEventListener("input", updateSubmitButtonState);
   photoCategory.addEventListener("change", updateSubmitButtonState);
 
-  // Soumettre le formulaire d'ajout
-  addPhotoForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  addPhotoForm.addEventListener("submit", async function (event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    // Vérifier si tous les champs sont remplis
+    if (photoInput.files.length === 0 || photoTitle.value.trim() === "" || photoCategory.value === "") {
+        alert("Veuillez remplir tous les champs avant de soumettre le formulaire.");
+        return; // Arrête l'exécution du code si les champs ne sont pas remplis
+    }
+
     const formData = new FormData();
     formData.append("image", photoInput.files[0]);
     formData.append("title", photoTitle.value);
     formData.append("category", photoCategory.value);
 
     try {
-      const response = await fetch(API_URL_PHOTOS, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        body: formData,
-      });
+        const response = await fetch(API_URL_PHOTOS, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: formData,
+        });
 
-      if (response.ok) {
-        const newPhoto = await response.json();
-        resetForm();
+        if (response.ok) {
+            const newPhoto = await response.json();
+            resetForm();
 
-        // Ajouter la nouvelle photo directement au DOM de la modale
-        const figure = document.createElement("figure");
-        figure.dataset.id = newPhoto.id;
-        figure.style.position = "relative";
+            // Ajouter la nouvelle photo directement au DOM
+            const figure = document.createElement("figure");
+            figure.dataset.id = newPhoto.id;
+            figure.style.position = "relative";
 
-        const img = document.createElement("img");
-        img.src = newPhoto.imageUrl;
-        img.alt = newPhoto.title;
+            const img = document.createElement("img");
+            img.src = newPhoto.imageUrl;
+            img.alt = newPhoto.title;
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-button";
-        deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-        deleteBtn.addEventListener("click", () => deletePhoto(newPhoto.id));
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-button";
+            deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            deleteBtn.addEventListener("click", () => deletePhoto(newPhoto.id));
 
-        figure.appendChild(img);
-        figure.appendChild(deleteBtn);
-        photoGallery.appendChild(figure);
+            figure.appendChild(img);
+            figure.appendChild(deleteBtn);
+            photoGallery.appendChild(figure);
 
-        // Mettre à jour la galerie principale
-        window.allPhotos.push(newPhoto); // Ajouter aux données globales
-        displayPhotos(window.allPhotos); // Réactualiser la galerie principale
+            // Mettre à jour la galerie principale
+            window.allPhotos.push(newPhoto);
+            displayPhotos(window.allPhotos);
 
-        // Retourner à la galerie
-        addPhotoSection.style.display = "none";
-        photoGallerySection.style.display = "block";
-      } else {
-        alert("Erreur lors de l'ajout de la photo.");
-      }
+            // Retourner à la galerie
+            addPhotoSection.style.display = "none";
+            photoGallerySection.style.display = "block";
+        } else {
+            alert("Erreur lors de l'ajout de la photo.");
+        }
     } catch (error) {
-      console.error("Erreur :", error);
-      alert("Une erreur s'est produite lors de l'ajout.");
+        console.error("Erreur :", error);
+        alert("Une erreur s'est produite lors de l'ajout.");
     }
-  });
+});
+
 
   // Charger les catégories
   async function loadCategories() {
@@ -231,15 +238,30 @@ document.addEventListener("DOMContentLoaded", function () {
   // Prévisualiser la photo ajoutée dans le placeholder
   photoInput.addEventListener("change", function () {
     const file = photoInput.files[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        // Remplacer le contenu de l'élément photoPreview par l'image sélectionnée
-        photoPreview.innerHTML = `<img src="${e.target.result}" alt="Photo ajoutée">`;
-      };
-      reader.readAsDataURL(file);
+        const maxSize = 4 * 1024 * 1024; // 4 Mo en octets
+
+        if (file.size > maxSize) {
+            alert("La taille de l'image ne doit pas dépasser 4 Mo.");
+            photoInput.value = ""; // Réinitialiser l'input
+            photoPreview.innerHTML = `
+                <i class="fa-solid fa-image"></i>
+                <span>+ Ajouter photo</span>
+                <p>jpg, png : 4mo max</p>
+            `;
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            // Remplacer le contenu de l'élément photoPreview par l'image sélectionnée
+            photoPreview.innerHTML = `<img src="${e.target.result}" alt="Photo ajoutée">`;
+        };
+        reader.readAsDataURL(file);
     }
-  });
+});
+
 
   // Réinitialiser le formulaire
   function resetForm() {
